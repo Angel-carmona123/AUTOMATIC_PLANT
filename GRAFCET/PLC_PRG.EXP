@@ -1,0 +1,19 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM PLC_PRG
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+GEMMA();
+
+(*Simulaciones*)
+Carrito_Rojo;
+Carrito_Verde;
+Cambio_Escenas;
+Luces;
+Simulacion_Almacen;
+
+END_PROGRAM

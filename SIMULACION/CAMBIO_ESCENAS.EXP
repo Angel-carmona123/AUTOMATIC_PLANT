@@ -1,0 +1,55 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Simulaciones' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Cambio_Escenas
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Ext:
+
+
+AccionExt(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Ext TO Alm:= 
+NOT Exterior
+
+
+END_TRANSITION
+IEC_STEP Alm:
+
+
+AccionAlm(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Alm TO Ext:= 
+Exterior
+
+
+END_TRANSITION
+
+END_PROGRAM
+ACTION	AccionAlm:
+Escena1 := TRUE;
+Escena2:= FALSE;
+Muestra := 'Almacen';
+END_ACTION
+
+ACTION	AccionExt:
+Escena2:=TRUE;
+Escena1:=FALSE;
+Muestra := 'Exterior';
+
+END_ACTION
+

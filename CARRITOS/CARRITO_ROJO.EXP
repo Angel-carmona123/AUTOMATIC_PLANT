@@ -1,0 +1,47 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Simulaciones\/Simulacion_Carritos' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Carrito_Rojo
+VAR
+	GIRO: INT;
+END_VAR
+(* @END_DECLARATION := '0' *)
+;
+(*Trayecto Invernadero-Almacen*)
+IF MOTOR_AV1 = TRUE AND X1 <= 217 THEN
+	X1 := X1 + Vel;
+
+ELSIF MOTOR_AV1 = TRUE AND X1 > 210 AND Y1 > -165 THEN
+	Y1 := Y1 - Vel;
+	GIRO := 90;
+END_IF
+
+
+(*Trayecto Almacen-Invernadero*)
+IF MOTOR_RE1 = TRUE AND Y1 <= 0THEN
+	Y1 := Y1 + Vel;
+
+ELSIF MOTOR_RE1 = TRUE AND  Y1 > 0  AND X1 > 0  THEN
+	X1 := X1 - Vel;
+	GIRO := 0;
+END_IF
+
+
+(*Activacion de Sensores*)
+IF X1 >= 164 AND X1 <= 217 THEN
+	A := TRUE;
+ELSE A := FALSE;
+END_IF;
+
+IF X1 = 0 THEN
+	I1 := TRUE;
+ELSE I1 := FALSE;
+END_IF;
+
+IF Y1 < -160 THEN
+	Al1 := TRUE;
+ELSE Al1 := FALSE;
+END_IF;
+END_PROGRAM

@@ -1,0 +1,42 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Marcha_Parada
+VAR_INPUT
+	SFCReset:BOOL;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Init:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Init TO Step2:= 
+M
+
+
+END_TRANSITION
+IEC_STEP Step2:
+
+
+Marcha(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Step2 TO Init:= 
+Parada
+
+
+END_TRANSITION
+
+END_PROGRAM
