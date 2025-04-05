@@ -1,0 +1,37 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Simulaciones\/Simulacion_Carritos' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Carrito_Verde
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+B := FALSE;
+I2 := FALSE;
+
+(*Trayecto Invernadero-Almacen*)
+IF MOTOR_AV2 = TRUE AND Y2 > -325  THEN
+Y2 := Y2 - Vel;
+END_IF
+
+
+(*Trayecto Almacen-Invernadero*)
+IF MOTOR_RE2 = TRUE AND Y2 <= 0THEN
+Y2 := Y2 + Vel;
+END_IF
+
+(*Activacion de sensores*)
+IF Y2 <= -112 AND Y2 >= -152 THEN
+B := TRUE;
+
+ELSIF Y2 >= 0 THEN
+I2 := TRUE;
+END_IF
+
+IF Y2 <  - 320 THEN
+	Al2 := TRUE;
+ELSE Al2 := FALSE;
+END_IF;
+END_PROGRAM

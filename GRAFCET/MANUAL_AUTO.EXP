@@ -1,0 +1,102 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Manual_Auto
+VAR_INPUT
+	SFCReset:BOOL;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Inicio:
+
+
+AccionInicio(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Inicio TO Automatico:= 
+InicioOK
+
+
+END_TRANSITION
+IEC_STEP Automatico:
+
+
+AccionAuto(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Automatico TO Manual:= 
+NOT Auto
+
+
+END_TRANSITION
+IEC_STEP Manual:
+
+
+AccionManual(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Manual TO Inicio:= 
+Auto
+
+
+END_TRANSITION
+
+END_PROGRAM
+ACTION	AccionAuto:
+Cinta_Transporte(SFCReset := FALSE);
+Invernaderos;
+Auto_Carritos;
+MuestraAuto := 'Auto';
+END_ACTION
+
+ACTION	AccionInicio:
+Marcha_Parada(SFCReset:=TRUE);
+Manual_Invernadero1(SFCReset := TRUE);
+Manual_Invernadero2(SFCReset := TRUE);
+MuestraAuto := 'Reiniciando';
+(*Reinicio de los carritos*)
+IF NOT I1 THEN
+	MOTOR_RE1 := TRUE;
+ELSE MOTOR_RE1 := FALSE;
+END_IF;
+
+IF NOT I2 THEN
+	MOTOR_RE2 := TRUE;
+ELSE MOTOR_RE2 := FALSE;
+END_IF;
+
+IF SCinta THEN
+	Cinta := TRUE;
+ELSE Cinta := FALSE;
+END_IF;
+
+IF I1 AND I2 AND NOT SCinta THEN
+	InicioOK := TRUE;
+ELSE InicioOK := FALSE;
+END_IF;
+
+END_ACTION
+
+ACTION	AccionManual:
+Manual_Almacen;
+Manual_Carritos;
+Manual_Invernadero1(SFCReset := FALSE);
+Manual_Invernadero2(SFCReset := FALSE);
+MuestraAuto := 'Manual';
+Invernaderos;
+END_ACTION
+

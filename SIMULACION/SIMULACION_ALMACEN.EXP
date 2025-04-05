@@ -1,0 +1,94 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Simulaciones' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Simulacion_Almacen
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+(*Planta Moviendose por la cinta*)
+IF Cinta THEN
+	Xp := Xp + Velcint;
+END_IF;
+
+(*Planta siendo ajustado a su posicion*)
+IF ActEmpuje AND Yemp1 < 32 THEN
+	Yemp1 := Yemp1 + 3;
+	Yemp2 := Yemp2 - 3;
+ELSIF NOT ActEmpuje AND Yemp1 > 0 THEN
+ 	Yemp1 := Yemp1 - 3;
+	Yemp2 := Yemp2 + 3;
+END_IF;
+
+(*Colocar Caja*)
+IF ActCaja AND Ybrazo < 180 AND Ycaja < 180 THEN
+	Ybrazo := Ybrazo + 3;
+	Ycaja := Ycaja + 3;
+
+ELSIF NOT ActCaja AND Ybrazo > 0  AND (Ycaja < 180 OR  Xp < 620) THEN
+	Ybrazo := Ybrazo - 3;
+	Ycaja := Ycaja - 3;
+
+ELSIF NOT ActCaja  AND Ybrazo > 0 THEN
+	Ybrazo := Ybrazo - 3;
+END_IF
+
+(*Caja Moviendose con planta*)
+IF Ycaja >= 179  AND Cinta AND Xp > 630 THEN
+	Xcaja := Xcaja + VelCint;
+END_IF;
+
+(*Poner etiqueta*)
+IF ActEtiqueta AND Yetiquetador >  -115 THEN
+	Yetiquetador := Yetiquetador - 3;
+	Yetiqueta := Yetiqueta -3;
+
+ELSIF NOT ActEtiqueta AND Yetiquetador < 0 AND (Yetiqueta > -115 OR  Xp < 990) THEN
+	Yetiquetador := Yetiquetador + 3;
+	Yetiqueta := Yetiqueta + 3;
+
+ELSIF NOT ActEtiqueta AND Yetiquetador < 0 AND Xp > 990 THEN
+	Yetiquetador := Yetiquetador + 3;
+END_IF;
+
+(*Etiqueta moviendose con caja y planta*)
+IF Yetiqueta < -110 AND Cinta AND Xp > 990 THEN
+	Xetiqueta := Xetiqueta + VelCint;
+END_IF;
+
+(*Vuelta a la posición inicial*)
+IF SFinal THEN
+	Ycaja := 0;
+	Xcaja := 0;
+	Yetiqueta := 0;
+	Xetiqueta := 0;
+	Xp := 0;
+END_IF;
+
+(*Sensores*)
+IF Xp >= 280 AND Xp <= 320 THEN
+	SEmpuja := TRUE;
+ELSE SEmpuja := FALSE;
+END_IF;
+
+IF Xp >= 630 AND Xp <= 670 THEN
+	Scaja := TRUE;
+ELSE Scaja := FALSE;
+END_IF;
+
+IF Xp >= 990 AND Xp <= 1030 THEN
+	Setiqueta := TRUE;
+ELSE Setiqueta := FALSE;
+END_IF;
+
+IF Xp >= 1330 THEN
+	SFinal := TRUE;
+ELSE Sfinal := FALSE;
+END_IF;
+
+IF Xp >= 30 AND Xp <= 1330 THEN
+	Scinta := TRUE;
+ELSE Scinta := FALSE;
+END_IF;
+END_PROGRAM

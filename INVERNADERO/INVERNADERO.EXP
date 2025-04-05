@@ -1,0 +1,234 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Automatico\/Invernaderos' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+FUNCTION_BLOCK Invernadero
+VAR_INPUT
+	Plantar1:BOOL;
+	Plantar2:BOOL;
+	I:BOOL;
+	Final1:BOOL;
+	Final2:BOOL;
+END_VAR
+VAR_OUTPUT
+	Cuenta1:BOOL;
+	Cuenta2:BOOL;
+	Riego:BOOL;
+	Recoge:BOOL;
+	Carga:BOOL;
+	Plantando:BOOL;
+END_VAR
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Init:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Init TO E1:= 
+Plantar1
+
+
+END_TRANSITION
+TRANSITION FROM Init TO E7:= 
+Plantar2 AND NOT Plantar1
+
+
+END_TRANSITION
+IEC_STEP E7:
+
+
+Plantando(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E7 TO E8:= 
+E7.t > t#2s
+
+
+END_TRANSITION
+IEC_STEP E8:
+
+
+Riego(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E8 TO E9:= 
+E8.t > t#2s
+
+
+END_TRANSITION
+IEC_STEP E9:
+
+
+Cuenta2(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E9 TO E10:= 
+Final2
+
+
+END_TRANSITION
+IEC_STEP E10:
+
+
+Recoge(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E10 TO E11:= 
+E10.t > t#5s
+
+
+END_TRANSITION
+IEC_STEP E11:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E11 TO E12:= 
+I
+
+
+END_TRANSITION
+IEC_STEP E12:
+
+
+Carga(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E12 TO Init:= 
+E12.t > t#6s
+
+
+END_TRANSITION
+TRANSITION FROM E9 TO E8:= 
+NOT Final2 AND E9.t  > t#1s
+
+
+END_TRANSITION
+IEC_STEP E1:
+
+
+Plantando(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E1 TO E2:= 
+E1.t > t#2s
+
+
+END_TRANSITION
+IEC_STEP E2:
+
+
+Riego(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E2 TO E3:= 
+E2.t>t#2s
+
+
+END_TRANSITION
+IEC_STEP E3:
+
+
+Cuenta1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E3 TO E4:= 
+Final1
+
+
+END_TRANSITION
+TRANSITION FROM E3 TO E2:= 
+NOT Final1 AND E3.t > t#1s
+
+
+END_TRANSITION
+IEC_STEP E4:
+
+
+Recoge(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E4 TO E5:= 
+E4.t>t#5s
+
+
+END_TRANSITION
+IEC_STEP E5:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E5 TO E6:= 
+I
+
+
+END_TRANSITION
+IEC_STEP E6:
+
+
+Carga(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E6 TO Init:= 
+E6.t>t#6s
+
+
+END_TRANSITION
+
+END_FUNCTION_BLOCK

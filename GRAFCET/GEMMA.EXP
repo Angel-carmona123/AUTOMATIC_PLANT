@@ -1,0 +1,110 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM GEMMA
+VAR
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Automatismo:
+
+
+AccionAutomatismo(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Automatismo TO Emergencia:= 
+E
+
+
+END_TRANSITION
+IEC_STEP Emergencia:
+
+
+AccionEmergencia(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Emergencia TO Aux:= 
+Rearme
+
+
+END_TRANSITION
+IEC_STEP Aux:
+
+
+AccionReinicio(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Aux TO Automatismo:= 
+InicioOK
+
+
+END_TRANSITION
+
+END_PROGRAM
+ACTION	AccionAutomatismo:
+Manual_Auto(SFCReset := FALSE);
+Marcha_Parada(SFCReset := FALSE);
+LuzEm:=FALSE;
+
+END_ACTION
+
+ACTION	AccionEmergencia:
+Cinta_Transporte(SFCReset := TRUE);
+Marcha_Parada(SFCReset:=TRUE);
+MOTOR_AV2 := FALSE;
+MOTOR_AV1 := FALSE;
+MOTOR_RE1:= FALSE;
+MOTOR_RE2:= FALSE;
+LuzEm := TRUE;
+
+(*Paro del almacen*)
+ActEmpuje := FALSE;
+ActCaja := FALSE;
+ActEtiqueta := FALSE;
+
+
+
+END_ACTION
+
+ACTION	AccionReinicio:
+Manual_Auto(SFCReset := TRUE);
+Cinta_Transporte(SFCReset := TRUE);
+Manual_Invernadero1(SFCReset := TRUE);
+Manual_Invernadero2(SFCReset := TRUE);
+MuestraAuto := 'Reiniciando';
+(*Reinicio de los carritos*)
+IF NOT I1 THEN
+	MOTOR_RE1 := TRUE;
+ELSE MOTOR_RE1 := FALSE;
+END_IF;
+
+IF NOT I2 THEN
+	MOTOR_RE2 := TRUE;
+ELSE MOTOR_RE2 := FALSE;
+END_IF;
+
+IF SCinta THEN
+	Cinta := TRUE;
+ELSE Cinta := FALSE;
+END_IF;
+
+IF I1 AND I2 AND NOT SCinta THEN
+	InicioOK := TRUE;
+ELSE InicioOK := FALSE;
+END_IF;
+END_ACTION
+

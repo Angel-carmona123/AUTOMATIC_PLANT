@@ -1,0 +1,136 @@
+
+(* @NESTEDCOMMENTS := 'Yes' *)
+(* @PATH := '\/Manual' *)
+(* @OBJECTFLAGS := '0, 8' *)
+(* @SYMFILEFLAGS := '2048' *)
+PROGRAM Manual_Invernadero1
+VAR_INPUT
+	SFCReset :BOOL;
+END_VAR
+(* @END_DECLARATION := '0' *)
+
+IEC_INITIAL_STEP Init:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Init TO Step2:= 
+Marcha
+
+
+END_TRANSITION
+IEC_STEP Step2:
+
+
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM Step2 TO E1:= 
+Plantar1_1
+
+
+END_TRANSITION
+TRANSITION FROM Step2 TO E2:= 
+Plantar1_2
+
+
+END_TRANSITION
+IEC_STEP E2:
+
+
+Plantando1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E2 TO Init:= 
+E2.t>t#2s
+
+
+END_TRANSITION
+TRANSITION FROM Step2 TO E3:= 
+TRUE
+
+
+END_TRANSITION
+IEC_STEP E3:
+
+
+Recoge1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E3 TO Init:= 
+E3.t>t#5s
+
+
+END_TRANSITION
+TRANSITION FROM Step2 TO E4:= 
+TRUE
+
+
+END_TRANSITION
+TRANSITION FROM Step2 TO E5:= 
+TRUE
+
+
+END_TRANSITION
+IEC_STEP E5:
+
+
+Cargar1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E5 TO Init:= 
+E5.t > t#6s
+
+
+END_TRANSITION
+IEC_STEP E4:
+
+
+Regar1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E4 TO Init:= 
+E4.t>t#5s
+
+
+END_TRANSITION
+IEC_STEP E1:
+
+
+Plantando1(N);
+
+
+END_STEP
+(* @SFCMAXTIME := '' *)
+(* @SFCMINTIME := '' *)
+(* @SFCCOMMENT := '' *)
+TRANSITION FROM E1 TO Init:= 
+E1.t>t#2s
+
+
+END_TRANSITION
+
+END_PROGRAM
